@@ -1,4 +1,4 @@
-# mechanism-of-hierarchical-time-constants
+# Mechanism of Hierarchical Time Constants
 
 Python code for model simulation and perturbation analysis in the paper "Hierarchical Timescales in the Neocortex: Mathematical Mechanism and Biological Insights"
 

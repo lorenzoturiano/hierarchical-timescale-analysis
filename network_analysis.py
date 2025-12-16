@@ -6,6 +6,7 @@ Hierarchical Timescales in the Neocortex: Mathematical Mechanism and Biological 
 """
 # %%
 import pre_functions_clean as pf
+from matplotlib import pyplot as plt
 import numpy as np
 
 datafile='subgraph_data_macaque.pkl'
@@ -15,10 +16,10 @@ p = pf.load_data(datafile)
 p,W = pf.genetate_net_connectivity(p)
 
 #=======================pulse input to V1====================================
-#pf.run_stimulus(p,VISUAL_INPUT=1,PULSE_INPUT=1)
+pf.run_stimulus(p,VISUAL_INPUT=1,PULSE_INPUT=1)
 
 #=======================white noise input to V1==============================
-pf.plt_white_noise_input(p)
+# pf.plt_white_noise_input(p)
 
 #==============eigenmode decomposition of the connectivity matrix============
 #eigVecs_reorder, tau_reorder = pf.eig_decomposition(p,W)

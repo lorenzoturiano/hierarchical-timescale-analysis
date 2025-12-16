@@ -969,9 +969,19 @@ def run_stimulus(p_t,VISUAL_INPUT=1,PULSE_INPUT=1,MACAQUE_CASE=1,GATING_PATHWAY=
         area_idx_list=[-1]
         for name in area_name_list:
             area_idx_list=area_idx_list+[p['areas'].index(name)]
-        #area_idx_list = [-1]+[p['areas'].index(name) for name in area_name_list]
+        area_idx_list = [-1]+[p['areas'].index(name) for name in area_name_list]
         
-        f, ax_list = plt.subplots(len(area_idx_list), sharex=True)
+        # modified code
+        n_rows = len(area_idx_list)
+        f, ax_list = plt.subplots(
+            n_rows,
+            1,
+            sharex=True,
+            figsize=(6, 1.2 * n_rows)   # width=6, height scales with #rows
+        )
+        ###############
+
+        # f, ax_list = plt.subplots(len(area_idx_list), sharex=True) # original row
         
         clist = cm.get_cmap(plt.get_cmap('Blues'))(np.linspace(0.0, 1.0, len(area_idx_list)))[np.newaxis, :, :3]
         c_color=0
@@ -990,28 +1000,36 @@ def run_stimulus(p_t,VISUAL_INPUT=1,PULSE_INPUT=1,MACAQUE_CASE=1,GATING_PATHWAY=
                 y_plot = y_plot - y_plot.min()
                 z_plot = z_plot - z_plot.min()
                 ax.plot(t_plot, y_plot,color='k')
-                #ax.plot(t_plot, z_plot,'--',color='b')
+                ax.plot(t_plot, z_plot,'--',color='b')
             else:
-                #ax.plot(t_plot, y_plot,color='r')
+                ax.plot(t_plot, y_plot,color='r')
                 ax.plot(t_plot[0:10000], y_plot[-1-10000:-1],color='r')
-                # ax.plot(t_plot[0:10000], z_plot[-1-10000:-1],'--',color='b')
+                ax.plot(t_plot[0:10000], z_plot[-1-10000:-1],'--',color='b')
                 
-            # ax.plot(t_plot, y_plot,color=clist[0][c_color])
-            # ax.plot(t_plot, z_plot,'--',color=clist[0][c_color])
+            ax.plot(t_plot, y_plot,color=clist[0][c_color])
+            ax.plot(t_plot, z_plot,'--',color=clist[0][c_color])
             c_color=c_color+1
             ax.text(0.9, 0.6, txt, transform=ax.transAxes)
 
             if PULSE_INPUT:
                 ax.set_yticks([0,y_plot.max()])
-                ax.set_yticklabels([0,'{:0.4f}'.format(y_plot.max()),'{:0.4f}'.format(z_plot.max())])
+                # ax.set_yticklabels([0,'{:0.4f}'.format(y_plot.max()),'{:0.4f}'.format(z_plot.max())])
             ax.spines["right"].set_visible(False)
             ax.spines["top"].set_visible(False)
             #ax.xaxis.set_ticks_position('bottom')
             ax.yaxis.set_ticks_position('left')
 
-        f.text(0.01, 0.5, 'Change in firing rate (Hz)', va='center', rotation='vertical')
-        ax.set_xlabel('Time (ms)')    
-               
+        # make more room on the left
+        f.subplots_adjust(left=0.18)  # tweak 0.18–0.22 until you like it
+
+        # y-label in figure coordinates, but not too close to 0
+        f.text(0.03, 0.5, 'Change in firing rate (Hz)',
+            va='center', rotation='vertical')
+
+        # f.text(0.01, 0.5, 'Change in firing rate (Hz)', va='center', rotation='vertical')
+        ax.set_xlabel('Time (ms)')
+
+        plt.savefig("result/pulse_response.pdf")               
         return I_stim_exc, r_exc, r_inh, area_stim_idx, dt, t_plot
  
 
@@ -1074,7 +1092,7 @@ def plt_white_noise_input(p_t,VISUAL_INPUT=1):
     ax1.set_ylabel('Correlation')
     ax1.spines['top'].set_visible(False)
     ax1.spines['right'].set_visible(False)
-    #plt.savefig('result/correlation_stim_V1.pdf')
+    plt.savefig('result/correlation_stim_V1.pdf')
     
      
     #---------------------------------------------------------------------------------
