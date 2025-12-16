@@ -16,10 +16,10 @@ p = pf.load_data(datafile)
 p,W = pf.genetate_net_connectivity(p)
 
 #=======================pulse input to V1====================================
-pf.run_stimulus(p,VISUAL_INPUT=1,PULSE_INPUT=1)
+pf.run_stimulus(p,VISUAL_INPUT=1,PULSE_INPUT=1) # to generate Fig1.A
 
 #=======================white noise input to V1==============================
-# pf.plt_white_noise_input(p)
+# pf.plt_white_noise_input(p) # to generate Fig1.B and Fig1.C
 
 #==============eigenmode decomposition of the connectivity matrix============
 #eigVecs_reorder, tau_reorder = pf.eig_decomposition(p,W)
